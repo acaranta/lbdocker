@@ -8,7 +8,8 @@ RUN echo "deb http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu trusty main" >
 RUN echo "deb-src http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu trusty main" >>/etc/apt/sources.list.d/haproxy1.5.list
 
 RUN apt-get update -y
-RUN apt-get install --force-yes -y supervisor haproxy inotify-tools envtpl python-pip
+RUN apt-get install --force-yes -y supervisor haproxy inotify-tools python-pip
+RUN pip install envtpl
 ADD supervisord.conf.tpl /etc/supervisor/supervisord.conf.tpl
 ADD dir-prereqs.sh /dir-prereqs.sh
 

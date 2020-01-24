@@ -1,15 +1,16 @@
-FROM ubuntu:14.04
+FROM ubuntu:18.10
 
 MAINTAINER arthur@caranta.com
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
 
-RUN echo "deb http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu trusty main" >/etc/apt/sources.list.d/haproxy1.5.list
-RUN echo "deb-src http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu trusty main" >>/etc/apt/sources.list.d/haproxy1.5.list
+#RUN echo "deb http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu trusty main" >/etc/apt/sources.list.d/haproxy1.5.list
+#RUN echo "deb-src http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu trusty main" >>/etc/apt/sources.list.d/haproxy1.5.list
 
 RUN apt-get update -y
-RUN apt-get install --force-yes -y supervisor haproxy inotify-tools python-pip
-RUN pip install envtpl
+#RUN apt-get install --force-yes -y supervisor haproxy inotify-tools python-pip
+RUN apt-get install --force-yes -y haproxy inotify-tools python-pip
+RUN pip install envtpl supervisor supervisor-logging
 ADD supervisord.conf.tpl /etc/supervisor/supervisord.conf.tpl
 ADD dir-prereqs.sh /dir-prereqs.sh
 
@@ -27,6 +28,7 @@ ENV TPLFILES /etc/supervisor/supervisord.conf
 ENV HASVC hapconf.cfg
 ENV SYSLOG_SERVER 127.0.0.1
 ENV SYSLOG_PORT 514
+ENV SYSLOG_PROTO udp
 
 VOLUME ["/hacfg"]
 

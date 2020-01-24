@@ -6,4 +6,4 @@ if [ $? -gt 0 ]; then
 	exit 1
 fi
 
-/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+/usr/local/bin/supervisord -c /etc/supervisor/supervisord.conf

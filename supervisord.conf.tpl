@@ -4,10 +4,14 @@ logfile = {{ LOGSPATH }}/{{DOCKERID}}/supervisor/supervisor.txt
 pidfile = /var/run/supervisord.pid
 loglevel = warn
 
+[eventlistener:logging]
+command = supervisor_logging
+events = PROCESS_LOG
+
 [program:inotifreload]
 command=/app/inotifreload.sh
-stdout_logfile = {{ LOGSPATH }}/{{DOCKERID}}/supervisor/haproxy/inotif-haproxy.txt
-stderr_logfile = {{ LOGSPATH }}/{{DOCKERID}}/supervisor/haproxy/inotif-haproxy.txt
+stdout_events_enabled = true
+stderr_events_enabled = true
 autorestart = true
 directory=/app
 

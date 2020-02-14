@@ -10,8 +10,10 @@ events = PROCESS_LOG
 
 [program:inotifreload]
 command=/app/inotifreload.sh
-stdout_events_enabled = true
-stderr_events_enabled = true
+#stdout_logfile = {{ LOGSPATH }}/{{DOCKERID}}/supervisor/supervisor.txt
+#stderr_logfile = {{ LOGSPATH }}/{{DOCKERID}}/supervisor/supervisor.txt
+stdout_syslog = true
+stderr_syslog = true
 autorestart = true
 directory=/app
 

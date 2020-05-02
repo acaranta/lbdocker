@@ -1,4 +1,4 @@
-FROM ubuntu:18.10
+FROM ubuntu:18.04
 
 MAINTAINER arthur@caranta.com
 ENV DEBIAN_FRONTEND noninteractive

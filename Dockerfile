@@ -9,7 +9,7 @@ ENV INITRD No
 
 RUN apt-get update -y
 #RUN apt-get install --force-yes -y supervisor haproxy inotify-tools python-pip
-RUN apt-get install --force-yes -y haproxy inotify-tools python-pip curl
+RUN apt-get install --force-yes -y haproxy inotify-tools python-pip curl lua-socket
 RUN pip install envtpl supervisor supervisor-logging
 ADD supervisord.conf.tpl /etc/supervisor/supervisord.conf.tpl
 ADD dir-prereqs.sh /dir-prereqs.sh

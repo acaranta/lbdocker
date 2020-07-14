@@ -9,7 +9,7 @@ ENV INITRD No
 
 RUN apt-get update -y
 #RUN apt-get install --force-yes -y supervisor haproxy inotify-tools python-pip
-RUN apt-get install --force-yes -y haproxy inotify-tools python-pip
+RUN apt-get install --force-yes -y haproxy inotify-tools python-pip curl
 RUN pip install envtpl supervisor supervisor-logging
 ADD supervisord.conf.tpl /etc/supervisor/supervisord.conf.tpl
 ADD dir-prereqs.sh /dir-prereqs.sh
@@ -19,7 +19,7 @@ ADD dir-prereqs.sh /dir-prereqs.sh
 ADD . /app
 WORKDIR /app
 RUN cp /app/haproxy.cfg /etc/haproxy
-
+RUN curl https://raw.githubusercontent.com/TimWolla/haproxy-auth-request/master/auth-request.lua -o /etc/haproxy/auth-request.lua
 RUN apt-get -y remove build-essential ".*-dev"
 RUN apt-get -y autoremove
 

@@ -19,4 +19,3 @@ then
 fi
 
 mkdir -p $LOGSPATH/$DOCKERID/supervisor/haproxy
-mkdir -p $LOGSPATH/$DOCKERID/supervisor/injectinfluxdb

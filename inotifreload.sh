@@ -11,7 +11,7 @@ while true; do
 	haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid
     fi
     #start an inotifywait (timeout -s <#> seconds)
-    #inotifywait -t 10 -q -e close_write,moved_to,create /hacfg/$HASVC 2>&1 >/dev/null
+    # inotifywait -t 10 -q -e close_write,moved_to,create /hacfg/$HASVC 2>&1 >/dev/null
     inotifywait -t 10 -q -r /hacfg 2>&1 >/dev/null
 
     #If the config or certificate store did not really change don't do anything
@@ -22,7 +22,7 @@ while true; do
         cp -f /hacfg/$HASVC /etc/haproxy/$HASVC
         RELOAD=1
     fi
-    
+
     diff /hacfg/certs /etc/haproxy/certs 2>&1 >/dev/null
     if [ $? -gt 0 ]; then
 	    echo "$(date) - Found changes in /hacfg/certs file..."

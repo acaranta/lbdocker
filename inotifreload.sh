@@ -11,7 +11,8 @@ while true; do
 	haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid
     fi
     #start an inotifywait (timeout -s <#> seconds)
-    inotifywait -t 10 -q -e close_write,moved_to,create /hacfg/$HASVC 2>&1 >/dev/null
+    #inotifywait -t 10 -q -e close_write,moved_to,create /hacfg/$HASVC 2>&1 >/dev/null
+    inotifywait -t 10 -q -e close_write,moved_to,create -r /hacfg 2>&1 >/dev/null
 
     #If the file did not really change don't do anything
     diff /hacfg/$HASVC /etc/haproxy/$HASVC 2>&1 >/dev/null

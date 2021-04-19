@@ -12,14 +12,30 @@ while true; do
     fi
     #start an inotifywait (timeout -s <#> seconds)
     #inotifywait -t 10 -q -e close_write,moved_to,create /hacfg/$HASVC 2>&1 >/dev/null
-    inotifywait -t 10 -q -e close_write,moved_to,create -r /hacfg 2>&1 >/dev/null
+    inotifywait -t 10 -q -r /hacfg 2>&1 >/dev/null
 
-    #If the file did not really change don't do anything
+    #If the config or certificate store did not really change don't do anything
     diff /hacfg/$HASVC /etc/haproxy/$HASVC 2>&1 >/dev/null
     if [ $? -gt 0 ]; then
-	    echo "$(date) - Found changes in $HASVC file... gracefully reloading HAProxy"
+	    echo "$(date) - Found changes in $HASVC file..."
 	    #if it changed, then copy it and reload properly haproxy
-            cp -f /hacfg/$HASVC /etc/haproxy/$HASVC
+        cp -f /hacfg/$HASVC /etc/haproxy/$HASVC
+        RELOAD=1
+    fi
+    
+    diff /hacfg/certs /etc/haproxy/certs 2>&1 >/dev/null
+    if [ $? -gt 0 ]; then
+	    echo "$(date) - Found changes in /hacfg/certs file..."
+	    #if it changed, then copy it and reload properly haproxy
+        cp -rf /hacfg/certs /etc/haproxy/certs
+        RELOAD=1
+    fi
+
+    if [ $RELOAD -gt 0 ]; then
+	    echo "$(date) - Found changes... gracefully reloading HAProxy"
+	    #if it changed, then copy it and reload properly haproxy
 	    haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid -sf $(cat /run/haproxy.pid)
     fi
+    RELOAD=0
+
 done

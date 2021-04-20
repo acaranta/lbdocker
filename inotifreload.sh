@@ -6,6 +6,7 @@ haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pi
 # watch for changes in /mnt and update nginx if there is one on /mnt/proxy
 echo "$(date) - Starting inotify loop"
 while true; do 
+    RELOAD=0
     #Check if haproxy is still running
     if ! kill -0 $(cat /run/haproxy.pid) ; then
 	haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid
@@ -36,6 +37,5 @@ while true; do
 	    #if it changed, then copy it and reload properly haproxy
 	    haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid -sf $(cat /run/haproxy.pid)
     fi
-    RELOAD=0
 
 done

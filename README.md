@@ -1,7 +1,7 @@
 # LB Docker : HaProxy on inotify
 
 This project is a Load Balancer for your docker containers using HaProxy.
-It uses an inotify loop to watch over it's configuration file and reload itself whenever it changes.
+It uses an inotify loop to watch over it's configuration file and reload itself whenever it changes. This container will also check the /hacfg/certs directory for changes (usefull when using certbot like auto updating certificates)
 
 ## docker-compose usage :
 ```

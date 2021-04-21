@@ -37,7 +37,7 @@ while true; do
         if [ $? -gt 0 ]; then
             echo "$(date) - Found changes in /hacfg/certs file..."
             #if it changed, then copy it and reload properly haproxy
-            cp -rf /hacfg/certs /etc/haproxy/certs
+            cp -rf /hacfg/certs/* /etc/haproxy/certs/
             RELOAD=1
         fi
 

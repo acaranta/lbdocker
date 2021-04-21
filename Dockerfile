@@ -22,17 +22,6 @@ RUN apt-get -y remove build-essential ".*-dev" git gcc make && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-ADD . /app
-WORKDIR /app
-
-RUN mkdir -p /etc/supervisor && cp /app/supervisord.conf.tpl /etc/supervisor/supervisord.conf.tpl
-RUN cp /app/dir-prereqs.sh /dir-prereqs.sh
-RUN cp /app/haproxy.cfg /etc/haproxy
-#Source : https://raw.githubusercontent.com/haproxytech/haproxy-lua-http/master/http.lua 
-RUN cp /app/lua/haproxy-lua-http.lua /usr/share/lua/5.3/haproxy-lua-http.lua
-#Source : https://raw.githubusercontent.com/TimWolla/haproxy-auth-request/master/auth-request.lua
-RUN cp /app/lua/auth-request.lua /etc/haproxy/auth-request.lua
-
 #Multistage build
 FROM scratch
 
@@ -50,6 +39,17 @@ ENV SYSLOG_PORT 514
 ENV SYSLOG_PROTO udp
 
 VOLUME ["/hacfg"]
+
+ADD . /app
+WORKDIR /app
+
+RUN mkdir -p /etc/supervisor && cp /app/supervisord.conf.tpl /etc/supervisor/supervisord.conf.tpl
+RUN cp /app/dir-prereqs.sh /dir-prereqs.sh
+RUN cp /app/haproxy.cfg /etc/haproxy
+#Source : https://raw.githubusercontent.com/haproxytech/haproxy-lua-http/master/http.lua 
+RUN cp /app/lua/haproxy-lua-http.lua /usr/share/lua/5.3/haproxy-lua-http.lua
+#Source : https://raw.githubusercontent.com/TimWolla/haproxy-auth-request/master/auth-request.lua
+RUN cp /app/lua/auth-request.lua /etc/haproxy/auth-request.lua
 
 EXPOSE 80
 

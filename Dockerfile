@@ -27,8 +27,6 @@ FROM scratch
 
 COPY --from=buildstage / /
 
-WORKDIR /app
-
 MAINTAINER arthur@caranta.com
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No

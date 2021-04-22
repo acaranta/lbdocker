@@ -40,7 +40,7 @@ while true; do
         if [ $? -gt 0 ]; then
             echo "$(date) - Found changes in /hacfg/certs directory ..."
             #if it changed, then copy it and set for reload
-	        rsync -ad /hacfg/certs /haproxy  --delete 
+	        rsync -ad /hacfg/certs /etc/haproxy  --delete 
             RELOAD=1
         fi
     fi

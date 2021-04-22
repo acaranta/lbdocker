@@ -31,14 +31,14 @@ while true; do
     if [ -d /hacfg/certs ];  then
         if [ ! -d /etc/haproxy/certs ]; then
             mkdir /etc/haproxy/certs
-	    rsync -ad /hacfg/certs /tmp  --delete 
+	    rsync -ad /hacfg/certs /etc/haproxy  --delete 
             #cp -rf /hacfg/certs/* /etc/haproxy/certs/
         fi
         diff /hacfg/certs /etc/haproxy/certs 2>&1 >/dev/null
         if [ $? -gt 0 ]; then
             echo "$(date) - Found changes in /hacfg/certs file..."
             #if it changed, then copy it and reload properly haproxy
-	    rsync -ad /hacfg/certs /tmp  --delete 
+	    rsync -ad /hacfg/certs /haproxy  --delete 
             #cp -rf /hacfg/certs/* /etc/haproxy/certs/
             RELOAD=1
         fi

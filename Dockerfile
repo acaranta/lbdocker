@@ -5,8 +5,8 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
 
 RUN apt-get update -y
-RUN apt-get install --force-yes -y haproxy inotify-tools python-pip curl lua-socket lua-json lua-http && \
-    pip install envtpl supervisor supervisor-logging
+RUN apt-get install --force-yes -y haproxy inotify-tools python-pip curl lua-socket lua-json lua-http rsync
+RUN pip install envtpl supervisor supervisor-logging
 
 #Fetch and build haproxy from github, compile it with prometheus exporter
 RUN cd /tmp && \

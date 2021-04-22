@@ -42,7 +42,8 @@ while true; do
 
         if [ $RELOAD -gt 0 ]; then
             echo "$(date) - Found changes... gracefully reloading HAProxy"
-            #if it changed, then copy it and reload properly haproxy
+            #reload properly haproxy
+            echo "### Reloading PID $(cat /run/haproxy.pid) "
             haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid -sf $(cat /run/haproxy.pid)
         fi
     fi

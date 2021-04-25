@@ -8,9 +8,15 @@ echo "$(date) - Starting inotify loop"
 while true; do 
     RELOAD=0
     #Check if haproxy is still running
-    if ! kill -0 $(cat /run/haproxy.pid) ; then
-	haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid
+#    if ! kill -0 $(cat /run/haproxy.pid) ; then
+#	    haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid
+#    fi
+    if ! pgrep haproxy ; then
+        haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid
+    else
+        pgrep haproxy >/run/haproxy.pid
     fi
+
     #start an inotifywait (timeout -s <#> seconds)
     # inotifywait -t 10 -q -e close_write,moved_to,create /hacfg/$HASVC 2>&1 >/dev/null
     if [ -d /hacfg/certs ];  then

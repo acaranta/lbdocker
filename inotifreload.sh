@@ -11,7 +11,7 @@ while true; do
 #    if ! kill -0 $(cat /run/haproxy.pid) ; then
 #	    haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid
 #    fi
-    if ! pgrep haproxy ; then
+    if ! pgrep haproxy 2>&1 >/dev/null ; then
         haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid
     else
         pgrep haproxy >/run/haproxy.pid

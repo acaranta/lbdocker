@@ -33,7 +33,6 @@ while true; do
     HALIST=""
     for item in "${NOTIFPATHS[@]}"
     do
-        echo "Found /hacfg/$item "
         HALIST=$HALIST" /hacfg/$item"
     done
 

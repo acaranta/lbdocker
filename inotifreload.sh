@@ -37,22 +37,24 @@ while true; do
     done
 
     #start an inotifywait (timeout -s <#> seconds)
-    # inotifywait -t 10 -q -e close_write,moved_to,create /hacfg/$HASVC 2>&1 >/dev/null
-    inotifywait -t 10 -q -e close_write,moved_to,create -r $HALIST 2>&1 >/dev/null
+    #inotifywait -t 5 -q -e close_write,moved_to,create /hacfg/$HASVC 2>&1 >/dev/null
+    inotifywait -t 5 -q -e close_write,moved_to,create -r $HALIST 2>&1 >/dev/null
 
     # Check and sync changes
     for item in "${NOTIFPATHS[@]}"
     do
-    if [ -d /hacfg/$item ];  then
+    if [[ -f /hacfg/$item || -d /hacfg/$item ]];  then
             #Check if initial sync is needed
             if [ ! -d /etc/haproxy/$item ]; then
                 rsync -ad /hacfg/$item /etc/haproxy  --delete 
             fi
 
             #Check for difference
+	    echo "diff"
+            diff /hacfg/$item /etc/haproxy/$item
             diff /hacfg/$item /etc/haproxy/$item 2>&1 >/dev/null
             if [ $? -gt 0 ]; then
-                echo "$(date) - Found changes in /hacfg/$item directory ..."
+                echo "$(date) - Found changes in /hacfg/$item ..."
                 #if it changed, then copy it and set for reload
                 rsync -ad /hacfg/$item /etc/haproxy  --delete 
                 RELOAD=1

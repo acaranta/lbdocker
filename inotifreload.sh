@@ -50,8 +50,6 @@ while true; do
             fi
 
             #Check for difference
-	    echo "diff"
-            diff /hacfg/$item /etc/haproxy/$item
             diff /hacfg/$item /etc/haproxy/$item 2>&1 >/dev/null
             if [ $? -gt 0 ]; then
                 echo "$(date) - Found changes in /hacfg/$item ..."

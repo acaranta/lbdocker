@@ -45,9 +45,16 @@ while true; do
     do
     if [[ -f /hacfg/$item || -d /hacfg/$item ]];  then
             #Check if initial sync is needed
-            if [ ! -d /etc/haproxy/$item ]; then
-                rsync -ad /hacfg/$item /etc/haproxy  --delete 
-            fi
+	    if [[ -d $PASSED ]]; then
+		    if [ ! -d /etc/haproxy/$item ]; then
+			rsync -ad /hacfg/$item /etc/haproxy  --delete 
+		    fi
+   	    elif [[ -f $PASSED ]]; then
+		    if [ ! -f /etc/haproxy/$item ]; then
+			rsync -ad /hacfg/$item /etc/haproxy  --delete 
+		    fi
+	    fi
+
 
             #Check for difference
             diff /hacfg/$item /etc/haproxy/$item 2>&1 >/dev/null

@@ -2,6 +2,9 @@
 
 # DOCKERID be overriden
 export DOCKERID=$(awk 'BEGIN{FS="/"} /\docker\//{a[$3]++} END {for (b in a) { print substr(b,1,12)}}' /proc/1/cgroup)
+if [ -z "$DOCKERID" ]; then
+	export DOCKERID=$(cat /etc/hostname)
+fi
 
 # Is LOGSPATH defined ?
 if [ -z "$LOGSPATH" ];

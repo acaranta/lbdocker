@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 AS buildstage
+FROM ubuntu:22.04 AS buildstage
 
 MAINTAINER arthur@caranta.com
 ENV DEBIAN_FRONTEND noninteractive

@@ -11,7 +11,7 @@ RUN pip3 install envtpl supervisor supervisor-logging
 #Fetch and build haproxy from github, compile it with prometheus exporter
 RUN cd /tmp && \
     apt install -y git ca-certificates gcc libc6-dev liblua5.3-dev libpcre3-dev libssl-dev libsystemd-dev make wget zlib1g-dev && \
-    git clone https://github.com/haproxy/haproxy.git && \
+    git clone --branch v3.3.0 --depth 1 https://github.com/haproxy/haproxy.git && \
     cd haproxy && \
     make TARGET=linux-glibc USE_LUA=1 USE_OPENSSL=1 USE_PCRE=1 USE_ZLIB=1 USE_SYSTEMD=1 USE_PROMEX=1 EXTRA_OBJS="addons/promex/service-prometheus.o" && \
     make install-bin && \

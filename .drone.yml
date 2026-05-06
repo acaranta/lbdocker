@@ -1,0 +1,9 @@
+---
+kind: template
+load: docker-build-multiarch.yaml
+data:
+  dockerfiledir: .
+  imagename: acaranta/lbdocker
+  imagetag: latest  
+  branches: ['master', 'main']
+  repotype: hub

@@ -3,7 +3,8 @@ kind: template
 load: docker-build-multiarch.yaml
 data:
   dockerfiledir: .
-  imagename: acaranta/lbdocker
+  hubimagename: lbdocker
   imagetag: latest  
   branches: ['master', 'main']
   repotype: hub
+  buildarch: linux/amd64

@@ -178,7 +178,10 @@ backend back_webassets
 - Most HAProxy directives
 
 **Pre-configured (cannot override):**
-- `global` section (logging, uid/gid, Lua modules, etc.)
+- `global` section (logging, uid/gid, Lua modules, etc.) — except `maxconn`, which the image
+  leaves unset: add a `global` section with `maxconn <n>` to your service configuration. Without
+  one, HAProxy derives it from the container's open-files limit (HAProxy 3.3 with the common
+  1048576 limit picks `maxconn 524271`, i.e. effectively unbounded).
 - `defaults` section (timeouts, retries, base options)
 
 ## Advanced Features

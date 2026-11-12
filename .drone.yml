@@ -6,7 +6,7 @@ data:
   hubimagename: lbdocker
   # The version tag is static: bump it together with HAPROXY_BRANCH in the Dockerfile
   imagetag:
-    - master: [latest, v3.3.0]
+    - master: [latest, v3.4.0]
     - v3.3.0: [v3.3.0]
   branches: [master, v3.3.0]
   repotype: hub

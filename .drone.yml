@@ -7,6 +7,7 @@ data:
   # The version tag is static: bump it together with HAPROXY_BRANCH in the Dockerfile
   imagetag:
     - master: [latest, v3.3.0]
-  branches: [master]
+    - v3.3.0: [v3.3.0]
+  branches: [master, v3.3.0]
   repotype: hub
   buildarch: linux/amd64

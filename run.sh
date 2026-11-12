@@ -1,7 +1,9 @@
 #!/bin/bash
-cd $LOGSPATH 
-rm -f current 2>&1 >/dev/null
-ln -s $DOCKERID current
+if [ "$LOG_TO_DISK" = "true" ]; then
+	cd "$LOGSPATH" || exit 1
+	rm -f current >/dev/null 2>&1
+	ln -s $DOCKERID current
+fi
 
 cd /app
 cp /hacfg/$HASVC /etc/haproxy/$HASVC

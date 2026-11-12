@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# stdout is forwarded by supervisord to the container stdout (docker logs).
+# With LOG_TO_DISK=true, also copy it to disk (LOGSPATH/DOCKERID/supervisor,
+# "current" symlink layout). Done here rather than with a pipe in the
+# supervisor command so this script stays the process supervisord signals.
+if [ "$LOG_TO_DISK" = "true" ]; then
+    exec > >(tee -a "$LOGSPATH/$DOCKERID/supervisor/inotifyreload.log") 2>&1
+fi
+
 #Launch haproxy at startup
 haproxy -f /etc/haproxy/haproxy.cfg -f /etc/haproxy/$HASVC -D -p /run/haproxy.pid
 

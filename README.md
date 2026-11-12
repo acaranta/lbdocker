@@ -61,7 +61,8 @@ docker run -d \
 |----------|----------|---------|-------------|
 | `LBID` | Yes | - | Unique identifier for your load balancer instance |
 | `HASVC` | Yes | `hapconf.cfg` | Name of your service configuration file (must exist in `/hacfg`) |
-| `LOGSPATH` | No | - | Path inside container where logs will be written |
+| `LOGSPATH` | When `LOG_TO_DISK=true` | - | Path inside container where logs will be written (must be a mount-point) |
+| `LOG_TO_DISK` | No | `true` | Also write the container logs under `LOGSPATH` (see [Logging](#logging)). Set to `false` to log to stdout only |
 | `SYSLOG_SERVER` | No | `127.0.0.1` | Remote syslog server address for centralized logging |
 | `SYSLOG_PORT` | No | `514` | Syslog server port |
 | `SYSLOG_PROTO` | No | `udp` | Syslog protocol (`udp` or `tcp`) |
@@ -72,7 +73,28 @@ docker run -d \
   - Your HAProxy service configuration file (specified in `HASVC`)
   - `certs/` - SSL/TLS certificates (optional, auto-watched)
   - `maps/` - HAProxy map files (optional, auto-watched)
-- **`/lblogs`** - Log output directory (optional)
+- **`/lblogs`** - Log output directory (required unless `LOG_TO_DISK=false`)
+
+### Logging
+
+The supervisord and inotify-loop logs (startup, config changes, reloads, HAProxy
+config errors) always go to the container stdout, so `docker logs` and any Docker
+logging driver see them.
+
+With `LOG_TO_DISK=true` (the default) they are also written to disk:
+
+```
+$LOGSPATH/
+├── current -> <container id>       # symlink to the running container's logs
+└── <container id>/supervisor/
+    ├── supervisor.log
+    └── inotifyreload.log
+```
+
+With `LOG_TO_DISK=false`, nothing is written under `LOGSPATH` and it does not need
+to be set or mounted.
+
+HAProxy traffic logs are not part of this: they go to `SYSLOG_SERVER`.
 
 ### Directory Structure Example
 

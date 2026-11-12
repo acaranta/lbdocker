@@ -3,6 +3,7 @@ FROM ubuntu:22.04 AS buildstage
 MAINTAINER arthur@caranta.com
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
+# Also the image version tag: keep the master imagetag in .drone.yml in sync
 ENV HAPROXY_BRANCH v3.3.0
 RUN apt-get update -y
 RUN apt-get install --force-yes -y haproxy inotify-tools python3-pip curl lua-socket lua-json lua-http rsync pcregrep

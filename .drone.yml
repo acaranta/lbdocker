@@ -2,9 +2,11 @@
 kind: template
 load: docker-build-multiarch.yaml
 data:
-  dockerfiledir: .
+  dockerfiledir: Dockerfile
   hubimagename: lbdocker
-  imagetag: latest  
-  branches: ['master', 'main']
+  # The version tag is static: bump it together with HAPROXY_BRANCH in the Dockerfile
+  imagetag:
+    - master: [latest, v3.3.0]
+  branches: [master]
   repotype: hub
   buildarch: linux/amd64

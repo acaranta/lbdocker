@@ -288,8 +288,8 @@ docker build --build-arg HAPROXY_BRANCH=v3.4.0 -t lbdocker:custom .
 ```
 
 The build process:
-- Uses Ubuntu 22.04 as base
-- Compiles HAProxy from source with Prometheus, Lua, OpenSSL, PCRE, and systemd support
+- Uses Ubuntu 26.04 as base
+- Compiles HAProxy from source with Prometheus, Lua, OpenSSL, PCRE2 (with JIT), and systemd support
 - Installs inotify-tools for configuration watching
 - Creates a minimal multi-stage build
 

@@ -280,18 +280,20 @@ The inotify loop checks every 5 seconds and responds immediately to file changes
 git clone https://github.com/acaranta/lbdocker.git
 cd lbdocker
 
-# Build with default HAProxy version (v3.3.0)
+# Build with default HAProxy version (v3.4.0)
 docker build -t lbdocker:latest .
 
-# Build with specific HAProxy version
-docker build --build-arg HAPROXY_BRANCH=v3.4.0 -t lbdocker:custom .
+# Build with specific HAProxy version (any tag/branch of github.com/haproxy/haproxy)
+docker build --build-arg HAPROXY_BRANCH=v3.3.0 -t lbdocker:custom .
 ```
 
 The build process:
 - Uses Ubuntu 26.04 as base
 - Compiles HAProxy from source with Prometheus, Lua, OpenSSL, PCRE2 (with JIT), and systemd support
+- Builds the Python tools (supervisord, envtpl) in a venv with uv
 - Installs inotify-tools for configuration watching
-- Creates a minimal multi-stage build
+- Creates a minimal multi-stage build: compilers, git and dev headers stay in the build stage,
+  the runtime image only gets the HAProxy binary, the venv and the runtime libraries
 
 ## Troubleshooting
 
